@@ -69,7 +69,7 @@ body {
 
 .app-sidenav {
   top: 64px;
-  padding-top: 10px;
+  padding-top: 0;
   position: absolute;
   width: 250px;
   transition: transform 0.3s;
@@ -86,6 +86,10 @@ body {
 
 .sidenav li > a {
   color: #ccc;
+}
+
+.sidenav li > .active {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .sidenav li > a:hover {
@@ -243,6 +247,12 @@ body {
 .history-chart {
   max-width: 600px;
   margin: 0 auto;
+}
+
+@media (max-width: 991px) {
+  .app-content {
+    padding-left: 0;
+  }
 }
 
 @media (max-width: 767px) {
