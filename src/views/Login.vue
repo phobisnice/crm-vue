@@ -57,6 +57,7 @@
 <script>
 import { required, email } from "vuelidate/lib/validators";
 import messages from "@/utils/messages";
+import { mapActions } from "vuex";
 
 export default {
   name: "login",
@@ -71,7 +72,8 @@ export default {
     password: { required }
   },
   methods: {
-    submitHandler() {
+    ...mapActions(["login"]),
+    async submitHandler() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
@@ -82,7 +84,10 @@ export default {
         password: this.password
       };
 
-      this.$router.push("/");
+      try {
+        await this.login(formData);
+        this.$router.push("/");
+      } catch (e) {}
     }
   },
   mounted() {
