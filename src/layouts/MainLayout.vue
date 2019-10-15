@@ -21,6 +21,7 @@
 <script>
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "main-layout",
@@ -33,9 +34,18 @@ export default {
     Navbar,
     Sidebar
   },
+  computed: {
+    ...mapGetters(["getInfo"])
+  },
   methods: {
+    ...mapActions(["fetchInfo"]),
     menuStateHandler() {
       this.isOpen = !this.isOpen;
+    }
+  },
+  mounted() {
+    if (!Object.keys(this.getInfo).length) {
+      this.fetchInfo();
     }
   }
 };

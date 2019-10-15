@@ -4,7 +4,9 @@ import router from "./router";
 import store from "./store";
 import Vuelidate from "vuelidate";
 import dateFilter from "@/filters/date.filter";
+import currencyFilter from "@/filters/currency.filter";
 import messagePlugin from "@/utils/message.plugin";
+import Loader from "@/components/Loader";
 import "./registerServiceWorker";
 import "materialize-css/dist/js/materialize.min";
 
@@ -12,8 +14,10 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 
+const FBK = process.env.VUE_APP_FB;
+
 firebase.initializeApp({
-  apiKey: "AIzaSyB__L_c7jyUoNymGVZWtgHasJSUr8522cM",
+  apiKey: FBK,
   authDomain: "vue-crm-13af3.firebaseapp.com",
   databaseURL: "https://vue-crm-13af3.firebaseio.com",
   projectId: "vue-crm-13af3",
@@ -27,6 +31,8 @@ Vue.config.productionTip = false;
 Vue.use(Vuelidate);
 Vue.use(messagePlugin);
 Vue.filter("date", dateFilter);
+Vue.filter("currencyFilter", currencyFilter);
+Vue.component("Loader", Loader);
 
 let app;
 
