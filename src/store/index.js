@@ -1,14 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import auth from "./auth";
+import category from "./category";
 import firebase from "firebase/app";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: {
-    auth
-  },
   state: {
     error: null,
     info: {}
@@ -53,5 +51,9 @@ export default new Vuex.Store({
   getters: {
     getError: state => state.error,
     getInfo: state => state.info
+  },
+  modules: {
+    auth,
+    category
   }
 });

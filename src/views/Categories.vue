@@ -4,67 +4,53 @@
       <h3>Категории</h3>
     </div>
     <section>
-      <div class="row">
-        <div class="col m12 l6 mb-3">
-          <div>
-            <div class="page-subtitle">
-              <h4>Создать</h4>
-            </div>
-
-            <form>
-              <div class="input-field">
-                <input id="name" type="text" />
-                <label for="name">Название</label>
-                <span class="helper-text invalid">Введите название</span>
-              </div>
-
-              <div class="input-field">
-                <input id="limit" type="number" />
-                <label for="limit">Лимит</label>
-                <span class="helper-text invalid">Минимальная величина</span>
-              </div>
-
-              <button class="btn btn-large z-depth-3 cyan waves-effect waves-light" type="submit">
-                Создать
-                <i class="material-icons right">send</i>
-              </button>
-            </form>
-          </div>
-        </div>
-        <div class="col m12 l6 mb-3">
-          <div>
-            <div class="page-subtitle">
-              <h4>Редактировать</h4>
-            </div>
-
-            <form>
-              <div class="input-field">
-                <select>
-                  <option>Category</option>
-                </select>
-                <label>Выберите категорию</label>
-              </div>
-
-              <div class="input-field">
-                <input type="text" id="name" />
-                <label for="name">Название</label>
-                <span class="helper-text invalid">TITLE</span>
-              </div>
-
-              <div class="input-field">
-                <input id="limit" type="number" />
-                <label for="limit">Лимит</label>
-                <span class="helper-text invalid">LIMIT</span>
-              </div>
-
-              <button class="btn btn-large z-depth-3 cyan waves-effect waves-light" type="submit">
-                Обновить
-                <i class="material-icons right">send</i>
-              </button>
-            </form>
-          </div>
-        </div>
+      <Loader v-if="loading" />
+      <div v-else class="row">
+        <CategoryCreate @created="addNewCategory" />
+        <CategoryUpdate
+          @updated="updateCategories"
+          v-if="categories.length"
+          :key="categories.length + count"
+          :categories="categories"
+        />
       </div>
     </section>
   </div>
 </template>
+
+<script>
+import { mapActions } from "vuex";
+import CategoryCreate from "@/components/CategoryCreate";
+import CategoryUpdate from "@/components/CategoryUpdate";
+
+export default {
+  name: "categories",
+  components: {
+    CategoryCreate,
+    CategoryUpdate
+  },
+  data() {
+    return {
+      categories: [],
+      loading: true,
+      count: 0
+    };
+  },
+  methods: {
+    ...mapActions(["fetchCategories"]),
+    addNewCategory(category) {
+      this.categories.push(category);
+    },
+    updateCategories(category) {
+      const index = this.categories.findIndex(cat => cat.id === category.id);
+      this.categories[index].title = category.title;
+      this.categories[index].limit = category.limit;
+      this.count++;
+    }
+  },
+  async mounted() {
+    this.categories = await this.fetchCategories();
+    this.loading = false;
+  }
+};
+</script>

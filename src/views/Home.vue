@@ -44,22 +44,30 @@ export default {
     ...mapActions(["fetchCurrency"]),
     refreshCurrency() {
       this.loading = true;
-      this.fetchCurrency().then(r => {
-        this.currency = r.rates;
-        this.currencyDate = r.date;
-        this.loading = false;
-      });
+      this.fetchCurrency()
+        .then(r => {
+          this.currency = r.rates;
+          this.currencyDate = r.date;
+          this.loading = false;
+        })
+        .catch(() => {
+          this.$error("Что-то пошло не так");
+        });
     }
   },
   mounted() {
     if (messages[this.$route.query.message]) {
       this.$message(messages[this.$route.query.message]);
     }
-    this.fetchCurrency().then(r => {
-      this.currency = r.rates;
-      this.currencyDate = r.date;
-      this.loading = false;
-    });
+    this.fetchCurrency()
+      .then(r => {
+        this.currency = r.rates;
+        this.currencyDate = r.date;
+        this.loading = false;
+      })
+      .catch(() => {
+        this.$error("Что-то пошло не так");
+      });
   }
 };
 </script>

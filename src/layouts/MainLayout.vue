@@ -1,19 +1,22 @@
 <template>
-  <div class="app-main-layout">
-    <Navbar @toggle-menu="menuStateHandler" />
+  <div>
+    <Loader v-if="loading" />
+    <div v-else class="app-main-layout">
+      <Navbar @toggle-menu="menuStateHandler" />
 
-    <Sidebar :isOpen="isOpen" />
+      <Sidebar :isOpen="isOpen" />
 
-    <main :class="{full: !isOpen}" class="app-content">
-      <div class="app-page">
-        <router-view />
+      <main :class="{full: !isOpen}" class="app-content">
+        <div class="app-page">
+          <router-view />
+        </div>
+      </main>
+
+      <div class="fixed-action-btn">
+        <router-link class="btn-floating btn-large blue-grey darken-1" to="/record">
+          <i class="large material-icons">add</i>
+        </router-link>
       </div>
-    </main>
-
-    <div class="fixed-action-btn">
-      <router-link class="btn-floating btn-large blue-grey darken-1" to="/record">
-        <i class="large material-icons">add</i>
-      </router-link>
     </div>
   </div>
 </template>
@@ -27,7 +30,8 @@ export default {
   name: "main-layout",
   data() {
     return {
-      isOpen: false
+      isOpen: false,
+      loading: true
     };
   },
   components: {
@@ -43,10 +47,12 @@ export default {
       this.isOpen = !this.isOpen;
     }
   },
-  mounted() {
+  async mounted() {
     if (!Object.keys(this.getInfo).length) {
-      this.fetchInfo();
+      await this.fetchInfo();
     }
+
+    this.loading = false;
   }
 };
 </script>
