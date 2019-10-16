@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import Vuelidate from "vuelidate";
+import Paginate from "vuejs-paginate";
 import dateFilter from "@/filters/date.filter";
 import currencyFilter from "@/filters/currency.filter";
 import messagePlugin from "@/utils/message.plugin";
@@ -35,6 +36,7 @@ Vue.filter("date", dateFilter);
 Vue.filter("currencyFilter", currencyFilter);
 Vue.directive("tooltip", tooltipDirective);
 Vue.component("Loader", Loader);
+Vue.component("Paginate", Paginate);
 
 let app;
 

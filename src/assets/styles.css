@@ -262,6 +262,10 @@ body {
   color: #ccc;
 }
 
+.pagination {
+  padding: 20px 0;
+}
+
 @media (max-width: 991px) {
   .app-content {
     padding-left: 0;
@@ -283,5 +287,13 @@ body {
 
   .app-page {
     padding: 2rem 0.8rem;
+  }
+
+  html {
+    font-size: 12px;
+  }
+
+  .responsive-table {
+    font-size: 12px;
   }
 }

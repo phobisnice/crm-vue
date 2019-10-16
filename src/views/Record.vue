@@ -106,6 +106,8 @@ export default {
         try {
           await this.createRecord({
             categoryId: this.category,
+            categoryName: this.categories.find(c => c.id === this.category)
+              .title,
             amount: this.amount,
             type: this.type,
             description: this.description,
