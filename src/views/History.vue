@@ -9,35 +9,51 @@
     </div>
 
     <section>
-      <table class="responsive-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Сумма</th>
-            <th>Дата</th>
-            <th>Категория</th>
-            <th>Тип</th>
-            <th>Открыть</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>1212</td>
-            <td>12.12.32</td>
-            <td>name</td>
-            <td>
-              <span class="white-text badge red">Расход</span>
-            </td>
-            <td>
-              <button class="btn-small btn z-depth-0 cyan">
-                <i class="material-icons">open_in_new</i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <Loader v-if="loading" />
+      <p v-else-if="!records.length" class="text-center">
+        Записей пока нет.
+        <router-link to="/record">Создать новую</router-link>
+      </p>
+      <HistoryTable v-else :records="records" />
     </section>
   </div>
 </template>
+
+<script>
+import { mapActions, mapGetters } from "vuex";
+import HistoryTable from "@/components/HistoryTable";
+
+export default {
+  name: "history",
+  components: {
+    HistoryTable
+  },
+  data() {
+    return {
+      records: [],
+      loading: true
+    };
+  },
+  methods: {
+    ...mapActions(["fetchCategories", "fetchRecords"])
+  },
+  async mounted() {
+    try {
+      const categories = await this.fetchCategories();
+      const records = await this.fetchRecords();
+
+      this.records = records.map(record => {
+        return {
+          ...record,
+          recordClass: record.type === "income" ? "green" : "red",
+          recordType: record.type === "income" ? "Доход" : "Расход",
+          categoryName: categories.find(c => c.id === record.categoryId).title
+        };
+      });
+      this.loading = false;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+};
+</script>

@@ -3,7 +3,7 @@ export default function currencyFilter(value, currency = "RUB") {
 
   switch (currency) {
     case "RUB":
-      currencySymbol = " &#8381";
+      currencySymbol = " &#8381;";
       break;
     case "EUR":
       currencySymbol = " &#8364;";

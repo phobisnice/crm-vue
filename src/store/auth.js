@@ -7,7 +7,6 @@ export default {
         await firebase.auth().signInWithEmailAndPassword(email, password);
       } catch (e) {
         commit("setError", e);
-        throw new Error(e.message);
       }
     },
     async registration({ commit, dispatch }, { email, password, name }) {
@@ -23,7 +22,6 @@ export default {
           });
       } catch (e) {
         commit("setError", e);
-        throw new Error(e.message);
       }
     },
     getUserId() {

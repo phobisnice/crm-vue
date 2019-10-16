@@ -29,6 +29,7 @@
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { mapGetters, mapActions } from "vuex";
+import messages from "@/utils/messages";
 
 export default {
   name: "main-layout",
@@ -43,7 +44,7 @@ export default {
     Sidebar
   },
   computed: {
-    ...mapGetters(["getInfo"])
+    ...mapGetters(["getInfo", "getError"])
   },
   methods: {
     ...mapActions(["fetchInfo"]),
@@ -51,8 +52,13 @@ export default {
       this.isOpen = !this.isOpen;
     }
   },
+  watch: {
+    getError(fbError) {
+      this.$error(messages[fbError.code] || "Что-то пошло не так");
+    }
+  },
   async mounted() {
-    if (!Object.keys(this.getInfo).length) {
+    if (!this.getInfo.bill || !this.getInfo.name) {
       await this.fetchInfo();
     }
 

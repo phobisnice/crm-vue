@@ -37,7 +37,7 @@ export default new Vuex.Store({
 
         commit("setInfo", info);
       } catch (e) {
-        throw new Error(e);
+        commit("setError", e);
       }
     },
     async updateInfo({ dispatch, commit, getters }, toUpdate) {

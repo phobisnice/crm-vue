@@ -258,6 +258,10 @@ body {
   margin-right: 2rem;
 }
 
+.breadcrumb:last-child {
+  color: #ccc;
+}
+
 @media (max-width: 991px) {
   .app-content {
     padding-left: 0;
