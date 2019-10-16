@@ -106,8 +106,8 @@ export default {
     this.current = id;
   },
   mounted() {
-    const select = M.FormSelect.init(this.$refs.select);
-    M.updateTextFields();
+    const select = window.M.FormSelect.init(this.$refs.select);
+    window.M.updateTextFields();
 
     this.$on("hook:beforeDestroy", () => {
       select.destroy();

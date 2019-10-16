@@ -149,6 +149,7 @@ body {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
+  flex-wrap: wrap;
   padding-bottom: 1rem;
   border-bottom: solid 1px rgba(51, 51, 51, 0.12);
 }
@@ -247,6 +248,14 @@ body {
 .history-chart {
   max-width: 600px;
   margin: 0 auto;
+}
+
+.checkbox-row {
+  margin: 2rem 0;
+}
+
+.checkbox-label {
+  margin-right: 2rem;
 }
 
 @media (max-width: 991px) {

@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import auth from "./auth";
 import category from "./category";
+import record from "./record";
 import firebase from "firebase/app";
 
 Vue.use(Vuex);
@@ -39,6 +40,20 @@ export default new Vuex.Store({
         throw new Error(e);
       }
     },
+    async updateInfo({ dispatch, commit, getters }, toUpdate) {
+      try {
+        const uid = await dispatch("getUserId");
+        const data = { ...getters.getInfo, ...toUpdate };
+        await firebase
+          .database()
+          .ref(`/users/${uid}/info`)
+          .update(data);
+
+        commit("setInfo", data);
+      } catch (e) {
+        commit("setError", e);
+      }
+    },
     async fetchCurrency() {
       const key = process.env.VUE_APP_FIXER;
       const res = await fetch(
@@ -54,6 +69,7 @@ export default new Vuex.Store({
   },
   modules: {
     auth,
-    category
+    category,
+    record
   }
 });
