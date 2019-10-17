@@ -4,8 +4,8 @@
       <h3>История записей</h3>
     </div>
 
-    <div class="history-chart">
-      <canvas></canvas>
+    <div v-if="!loading && records.length" class="history-chart">
+      <HistoryPieChart :chartData="chartData" :charOptions="chartOptions" />
     </div>
 
     <section>
@@ -34,29 +34,43 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import HistoryTable from "@/components/HistoryTable";
+import HistoryPieChart from "@/components/HistoryPieChart";
+import generateColorArray from "@/utils/randomColorArray.util";
 import paginationMixin from "@/mixins/pagination.mixin";
 
 export default {
   name: "history",
   components: {
-    HistoryTable
+    HistoryTable,
+    HistoryPieChart
   },
   mixins: [paginationMixin],
   data() {
     return {
       records: [],
-      loading: true
+      loading: true,
+      chartData: {
+        labels: [],
+        datasets: [
+          {
+            label: "Расходы по категориям",
+            backgroundColor: [],
+            data: [],
+            borderWidth: 3
+          }
+        ]
+      },
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     };
   },
   methods: {
-    ...mapActions(["fetchRecords"])
-  },
-  async mounted() {
-    try {
-      this.records = await this.fetchRecords();
-
+    ...mapActions(["fetchRecords", "fetchCategories"]),
+    setup() {
       this.setupPagination(
         this.records.map(record => {
           return {
@@ -66,6 +80,32 @@ export default {
           };
         })
       );
+    },
+    chartInit(categories) {
+      this.chartData.labels = categories.map(cat => cat.title);
+      this.chartData.datasets[0].backgroundColor = generateColorArray(
+        categories.length,
+        "blue"
+      );
+      this.chartData.datasets[0].data = categories.map(cat => {
+        return this.records.reduce((total, record) => {
+          if (record.categoryId === cat.id && record.type === "outcome") {
+            total += +record.amount;
+          }
+
+          return total;
+        }, 0);
+      });
+    }
+  },
+  async mounted() {
+    try {
+      this.records = await this.fetchRecords();
+      const categories = await this.fetchCategories();
+
+      this.chartInit(categories);
+      this.setup();
+
       this.loading = false;
     } catch (e) {
       console.log(e);
