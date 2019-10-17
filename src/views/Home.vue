@@ -33,6 +33,9 @@ export default {
     HomeBill,
     HomeCurrency
   },
+  metaInfo: {
+    title: "Денежный контроль"
+  },
   data() {
     return {
       loading: true,

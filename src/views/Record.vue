@@ -70,6 +70,9 @@ import { required, minValue } from "vuelidate/lib/validators";
 
 export default {
   name: "record",
+  metaInfo: {
+    title: "Добавить запись"
+  },
   data() {
     return {
       loading: true,

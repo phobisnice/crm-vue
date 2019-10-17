@@ -30,6 +30,9 @@ import currencyFilter from "@/filters/currency.filter";
 
 export default {
   name: "detail-record",
+  metaInfo: {
+    title: "Подробная информация"
+  },
   data() {
     return {
       record: null,

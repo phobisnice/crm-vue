@@ -46,6 +46,9 @@ export default {
     HistoryTable,
     HistoryPieChart
   },
+  metaInfo: {
+    title: "История"
+  },
   mixins: [paginationMixin],
   data() {
     return {

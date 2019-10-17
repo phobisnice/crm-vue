@@ -29,6 +29,9 @@ export default {
     CategoryCreate,
     CategoryUpdate
   },
+  metaInfo: {
+    title: "Категории"
+  },
   data() {
     return {
       categories: [],

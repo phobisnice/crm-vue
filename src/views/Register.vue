@@ -90,6 +90,9 @@ import { mapActions } from "vuex";
 
 export default {
   name: "register",
+  metaInfo: {
+    title: "Регистрация"
+  },
   data() {
     return {
       email: "",

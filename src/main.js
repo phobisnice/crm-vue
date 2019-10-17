@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import Vuelidate from "vuelidate";
 import Paginate from "vuejs-paginate";
+import VueMeta from "vue-meta";
 import dateFilter from "@/filters/date.filter";
 import currencyFilter from "@/filters/currency.filter";
 import messagePlugin from "@/utils/message.plugin";
@@ -32,6 +33,9 @@ Vue.config.productionTip = false;
 
 Vue.use(Vuelidate);
 Vue.use(messagePlugin);
+Vue.use(VueMeta, {
+  refreshOnceOnNavigation: true
+});
 Vue.filter("date", dateFilter);
 Vue.filter("currencyFilter", currencyFilter);
 Vue.directive("tooltip", tooltipDirective);
